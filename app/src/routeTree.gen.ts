@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthorizedRouteImport } from './routes/_authorized'
+import { Route as AuthorizedCalendarIndexRouteImport } from './routes/_authorized/calendar/index'
 import { Route as AuthorizedHomeIndexRouteImport } from './routes/_authorized/home/index'
+import { Route as AuthorizedProjectsIndexRouteImport } from './routes/_authorized/projects/index'
+import { Route as AuthorizedTasksIndexRouteImport } from './routes/_authorized/tasks/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,32 +25,63 @@ const AuthorizedRoute = AuthorizedRouteImport.update({
   id: '/_authorized',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthorizedCalendarIndexRoute = AuthorizedCalendarIndexRouteImport.update({
+  id: '/calendar/',
+  path: '/calendar/',
+  getParentRoute: () => AuthorizedRoute,
+} as any)
 const AuthorizedHomeIndexRoute = AuthorizedHomeIndexRouteImport.update({
   id: '/home/',
   path: '/home/',
   getParentRoute: () => AuthorizedRoute,
 } as any)
+const AuthorizedProjectsIndexRoute = AuthorizedProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => AuthorizedRoute,
+} as any)
+const AuthorizedTasksIndexRoute = AuthorizedTasksIndexRouteImport.update({
+  id: '/tasks/',
+  path: '/tasks/',
+  getParentRoute: () => AuthorizedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calendar/': typeof AuthorizedCalendarIndexRoute
   '/home/': typeof AuthorizedHomeIndexRoute
+  '/projects/': typeof AuthorizedProjectsIndexRoute
+  '/tasks/': typeof AuthorizedTasksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calendar': typeof AuthorizedCalendarIndexRoute
   '/home': typeof AuthorizedHomeIndexRoute
+  '/projects': typeof AuthorizedProjectsIndexRoute
+  '/tasks': typeof AuthorizedTasksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authorized': typeof AuthorizedRouteWithChildren
+  '/_authorized/calendar/': typeof AuthorizedCalendarIndexRoute
   '/_authorized/home/': typeof AuthorizedHomeIndexRoute
+  '/_authorized/projects/': typeof AuthorizedProjectsIndexRoute
+  '/_authorized/tasks/': typeof AuthorizedTasksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home/'
+  fullPaths: '/' | '/calendar/' | '/home/' | '/projects/' | '/tasks/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home'
-  id: '__root__' | '/' | '/_authorized' | '/_authorized/home/'
+  to: '/' | '/calendar' | '/home' | '/projects' | '/tasks'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authorized'
+    | '/_authorized/calendar/'
+    | '/_authorized/home/'
+    | '/_authorized/projects/'
+    | '/_authorized/tasks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -71,6 +105,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorizedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authorized/calendar/': {
+      id: '/_authorized/calendar/'
+      path: '/calendar'
+      fullPath: '/calendar/'
+      preLoaderRoute: typeof AuthorizedCalendarIndexRouteImport
+      parentRoute: typeof AuthorizedRoute
+    }
     '/_authorized/home/': {
       id: '/_authorized/home/'
       path: '/home'
@@ -78,15 +119,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorizedHomeIndexRouteImport
       parentRoute: typeof AuthorizedRoute
     }
+    '/_authorized/projects/': {
+      id: '/_authorized/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof AuthorizedProjectsIndexRouteImport
+      parentRoute: typeof AuthorizedRoute
+    }
+    '/_authorized/tasks/': {
+      id: '/_authorized/tasks/'
+      path: '/tasks'
+      fullPath: '/tasks/'
+      preLoaderRoute: typeof AuthorizedTasksIndexRouteImport
+      parentRoute: typeof AuthorizedRoute
+    }
   }
 }
 
 interface AuthorizedRouteChildren {
+  AuthorizedCalendarIndexRoute: typeof AuthorizedCalendarIndexRoute
   AuthorizedHomeIndexRoute: typeof AuthorizedHomeIndexRoute
+  AuthorizedProjectsIndexRoute: typeof AuthorizedProjectsIndexRoute
+  AuthorizedTasksIndexRoute: typeof AuthorizedTasksIndexRoute
 }
 
 const AuthorizedRouteChildren: AuthorizedRouteChildren = {
+  AuthorizedCalendarIndexRoute: AuthorizedCalendarIndexRoute,
   AuthorizedHomeIndexRoute: AuthorizedHomeIndexRoute,
+  AuthorizedProjectsIndexRoute: AuthorizedProjectsIndexRoute,
+  AuthorizedTasksIndexRoute: AuthorizedTasksIndexRoute,
 }
 
 const AuthorizedRouteWithChildren = AuthorizedRoute._addFileChildren(
