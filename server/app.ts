@@ -1,14 +1,14 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
-import { helloRoute } from "./routes/hello";
 import { clerkMiddleware } from "@clerk/hono";
+import { authRoute } from "./routes/auth";
 
 const app = new Hono();
 
 app.use("*", logger());
 app.use("*", clerkMiddleware());
 
-const apiRoutes = app.basePath("/api").route("/hello", helloRoute);
+const apiRoutes = app.basePath("/api").route("/", authRoute);
 
 export type ApiRoutes = typeof apiRoutes;
 export default app;
