@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Show, SignInButton, SignUpButton, SignOutButton } from "@clerk/react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -9,17 +10,42 @@ function Index() {
     <main className="min-h-screen bg-neutral-950 text-white">
       {/* Navbar */}
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-        <div className="text-xl font-semibold">Taskflow</div>
+        <div className="w-1/4 flex justify-between items-center">
+          <div className="text-xl font-semibold">Ouro</div>
+        </div>
 
-        <div className="hidden items-center gap-8 text-sm text-neutral-400 md:flex">
+        <div className="hidden grow justify-center items-center gap-8 text-sm text-neutral-400 md:flex">
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
           <a href="#about">About</a>
         </div>
 
-        <button className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-black">
-          Get Started
-        </button>
+        <div className="w-1/4 flex justify-end items-center gap-4">
+          <Show when={"signed-out"}>
+            <SignInButton mode="modal">
+              <button className="rounded-lg  border border-white bg-black px-4 py-2 text-sm font-medium text-white">
+                Log In
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-black">
+                Get Started
+              </button>
+            </SignUpButton>
+          </Show>
+          <Show when={"signed-in"}>
+            <Link to="/home">
+              <button className="rounded-lg px-4 py-2 text-sm font-medium text-white">
+                Dashboard
+              </button>
+            </Link>
+            <SignOutButton>
+              <button className="rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white">
+                Log Out
+              </button>
+            </SignOutButton>
+          </Show>
+        </div>
       </nav>
 
       {/* Hero */}
@@ -41,9 +67,20 @@ function Index() {
           </p>
 
           <div className="mt-9 flex justify-center gap-3">
-            <button className="rounded-lg bg-white px-6 py-3 font-medium text-black transition hover:bg-neutral-200">
-              Get Started
-            </button>
+            <Show when={"signed-out"}>
+              <SignUpButton mode="modal">
+                <button className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-black">
+                  Get Started
+                </button>
+              </SignUpButton>
+            </Show>
+            <Show when={"signed-in"}>
+              <Link to="/home">
+                <button className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-black">
+                  Dashboard
+                </button>
+              </Link>
+            </Show>
 
             <button className="rounded-lg border border-neutral-800 px-6 py-3 font-medium text-white transition hover:bg-neutral-900">
               View Demo
@@ -64,7 +101,7 @@ function Index() {
             {/* Dashboard */}
             <div className="grid min-h-112.5 grid-cols-[200px_1fr]">
               <aside className="hidden border-r border-neutral-800 p-5 sm:block">
-                <div className="mb-8 text-sm font-medium">Taskflow</div>
+                <div className="mb-8 text-sm font-medium">Ouro</div>
 
                 <div className="space-y-2 text-sm text-neutral-500">
                   <div className="rounded-md bg-neutral-800 px-3 py-2 text-white">
@@ -241,18 +278,29 @@ function Index() {
             things simple.
           </p>
 
-          <button className="mt-8 rounded-lg bg-white px-7 py-3 font-medium text-black">
-            Get Started
-          </button>
+          <Show when={"signed-out"}>
+            <SignUpButton mode="modal">
+              <button className="mt-8 rounded-lg bg-white px-7 py-3 font-medium text-black">
+                Get Started
+              </button>
+            </SignUpButton>
+          </Show>
+          <Show when={"signed-in"}>
+            <Link to="/home">
+              <button className="mt-8 rounded-lg bg-white px-7 py-3 font-medium text-black">
+                Dashboard
+              </button>
+            </Link>
+          </Show>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="border-t border-neutral-900">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-8">
-          <span className="font-medium">Taskflow</span>
+          <span className="font-medium">Ouro</span>
 
-          <span className="text-sm text-neutral-600">© 2026 Taskflow</span>
+          <span className="text-sm text-neutral-600">© 2026 Ouro</span>
         </div>
       </footer>
     </main>
