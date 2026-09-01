@@ -16,6 +16,8 @@ import UpcomingTask from "@/components/upcoming-task";
 import { projects, tasks } from "@/lib/constants";
 import { useContext } from "@/lib/use-context";
 import CreateProjectModal from "@/components/modals/create-project-modal";
+import { AnimatePresence } from "framer-motion";
+import Projects from "@/components/data/projects";
 
 export const Route = createFileRoute("/_authorized/home/")({
   component: RouteComponent,
@@ -67,25 +69,13 @@ function RouteComponent() {
                     Projects
                   </span>
                   <button
-                    className="text-neutral-600 transition hover:text-white grid place-items-center bg-neutral-800"
+                    className="text-neutral-600 transition hover:text-white grid place-items-center bg-neutral-800 p-1! h-auto!"
                     onClick={() => setCreateProjectModal(true)}
                   >
                     <Plus size={15} />
                   </button>
                 </div>
-                <div className="space-y-1">
-                  {projects.map((project) => (
-                    <button
-                      key={project.name}
-                      className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-neutral-400 transition hover:bg-neutral-900 hover:text-white"
-                    >
-                      <span
-                        className={`size-2 rounded-full ${project.color}`}
-                      />
-                      <span className="truncate">{project.name}</span>
-                    </button>
-                  ))}
-                </div>
+                <Projects />
               </div>
             </div>
             {/* User */}
@@ -286,7 +276,9 @@ function RouteComponent() {
           </main>
         </div>
       </div>
-      {createProjectModal && <CreateProjectModal />}
+      <AnimatePresence mode="wait">
+        {createProjectModal && <CreateProjectModal />}
+      </AnimatePresence>
     </>
   );
 }

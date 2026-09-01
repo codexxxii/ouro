@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 import { getUser } from "../clerk";
 
-export const authRoute = new Hono().get("/current-user", getUser, (c) => {
+export const authRoute = new Hono().get("/current-user", getUser, async (c) => {
   const { userId } = c.var.user;
   const clerkClient = c.get("clerk");
 
-  const userData = clerkClient.users.getUser(userId);
+  const userData = await clerkClient.users.getUser(userId);
 
   return c.json({ userData });
 });
