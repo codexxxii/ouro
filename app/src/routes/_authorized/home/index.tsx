@@ -13,7 +13,7 @@ import SidebarItem from "@/components/side-bar-item";
 import StatCard from "@/components/stat-card";
 import TaskRow from "@/components/task-row";
 import UpcomingTask from "@/components/upcoming-task";
-import { projects, tasks } from "@/lib/constants";
+import { tasks } from "@/lib/constants";
 import { useContext } from "@/lib/use-context";
 import CreateProjectModal from "@/components/modals/create-project-modal";
 import { AnimatePresence } from "framer-motion";
@@ -244,31 +244,7 @@ function RouteComponent() {
                         View all
                       </button>
                     </div>
-                    <div className="mt-5 space-y-5">
-                      {projects.map((project) => {
-                        const percentage = Math.round(
-                          (project.completed / project.tasks) * 100,
-                        );
-                        return (
-                          <div key={project.name}>
-                            <div className="flex justify-between">
-                              <span className="text-sm text-neutral-300">
-                                {project.name}
-                              </span>
-                              <span className="text-xs text-neutral-600">
-                                {percentage}%
-                              </span>
-                            </div>
-                            <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-neutral-800">
-                              <div
-                                className={`h-full rounded-full ${project.color}`}
-                                style={{ width: `${percentage}%` }}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
+                    <Projects />
                   </section>
                 </div>
               </div>

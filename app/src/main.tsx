@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ClerkProvider } from "@clerk/react";
+import { Toaster } from "sonner";
 import "@/styles/globals.css";
 
 // Create Query Client
@@ -32,6 +33,7 @@ if (!rootElement.innerHTML) {
       >
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
+          <Toaster />
         </QueryClientProvider>
       </ClerkProvider>
     </StrictMode>,

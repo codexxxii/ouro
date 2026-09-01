@@ -1,6 +1,8 @@
 import { pgTable, uuid, timestamp, text, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 
+// Tables
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   created_at: timestamp("created_at", { withTimezone: true })
@@ -43,4 +45,11 @@ export const tasks = pgTable("tasks", {
     .notNull(),
 });
 
-export const insertProjectSchema = createInsertSchema(projects);
+// Schemas
+export const insertProjectSchema = createInsertSchema(projects).extend({
+  name: z.string().min(1, "Project name must be atleast 1 character"),
+  description: z
+    .string()
+    .min(1, "Project description must be atleast 1 character")
+    .max(300, "Project name must be at most 300 characters"),
+});

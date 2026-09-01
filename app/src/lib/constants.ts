@@ -40,14 +40,3 @@ export const tasks = [
     completed: false,
   },
 ];
-
-export const projects = [
-  { name: "Website Redesign", tasks: 12, completed: 8, color: "bg-blue-500" },
-  { name: "Task Manager", tasks: 18, completed: 6, color: "bg-purple-500" },
-  {
-    name: "Personal Website",
-    tasks: 8,
-    completed: 7,
-    color: "bg-emerald-500",
-  },
-];
