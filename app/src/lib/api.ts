@@ -1,12 +1,12 @@
 import { hc } from "hono/client";
 import type { ApiRoutes } from "@server/app";
-import { queryOptions } from "@tanstack/react-query";
 import type { ProjectSchema } from "@server/shared-types";
 import { queryClient } from "@/main";
+import { queryOptions } from "@tanstack/react-query";
 
 const api = hc<ApiRoutes>("/").api;
 
-async function getCurrentUser() {
+export async function getCurrentUser() {
   try {
     const res = await api["current-user"].$get();
     if (!res.ok) {
@@ -19,12 +19,6 @@ async function getCurrentUser() {
     throw error;
   }
 }
-
-export const userQueryOptions = queryOptions({
-  queryKey: ["current-user"],
-  queryFn: getCurrentUser,
-  staleTime: Infinity,
-});
 
 // Projects
 export async function getProjects() {
@@ -42,6 +36,12 @@ export async function getProjects() {
     throw error;
   }
 }
+
+export const projectQueryOptions = queryOptions({
+  queryKey: ["projects"],
+  queryFn: getProjects,
+  staleTime: 20 * 60 * 1000,
+});
 
 export async function createProject({ project }: { project: ProjectSchema }) {
   try {

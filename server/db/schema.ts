@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { pgTable, uuid, timestamp, text, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -44,6 +45,31 @@ export const tasks = pgTable("tasks", {
     .defaultNow()
     .notNull(),
 });
+
+// Relations
+export const userRelations = relations(users, ({ many }) => ({
+  projects: many(projects),
+  tasks: many(tasks),
+}));
+
+export const projectRelations = relations(projects, ({ one, many }) => ({
+  user: one(users, {
+    fields: [projects.user_id],
+    references: [users.clerk_id],
+  }),
+  tasks: many(tasks),
+}));
+
+export const taskRelations = relations(tasks, ({ one }) => ({
+  user: one(users, {
+    fields: [tasks.user_id],
+    references: [users.clerk_id],
+  }),
+  project: one(projects, {
+    fields: [tasks.project_id],
+    references: [projects.id],
+  }),
+}));
 
 // Schemas
 export const insertProjectSchema = createInsertSchema(projects).extend({

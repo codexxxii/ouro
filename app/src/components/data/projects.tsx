@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProjects } from "@/lib/api";
+import { projectQueryOptions } from "@/lib/api";
+import { Link } from "@tanstack/react-router";
 
 export default function Projects() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["projects"],
-    queryFn: getProjects,
-  });
+  const { data, isLoading, error } = useQuery(projectQueryOptions);
 
   return (
     <>
@@ -24,13 +22,15 @@ export default function Projects() {
       {data && (
         <div className="space-y-1">
           {data.data.map((project) => (
-            <button
-              key={project.name}
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-neutral-400 transition hover:bg-neutral-900 hover:text-white"
-            >
-              <span className={`size-2 rounded-full bg-sky-700`} />
-              <span className="truncate">{project.name}</span>
-            </button>
+            <Link to="/projects/$projectId" params={{ projectId: project.id }}>
+              <button
+                key={project.name}
+                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-neutral-400 transition hover:bg-neutral-900 hover:text-white"
+              >
+                <span className={`size-2 rounded-full bg-sky-700`} />
+                <span className="truncate">{project.name}</span>
+              </button>
+            </Link>
           ))}
         </div>
       )}

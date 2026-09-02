@@ -18,11 +18,17 @@ export default function CreateProjectModal() {
   });
 
   const onSubmit = (values: ProjectSchema) => {
-    toast.promise(async () => await createProject({ project: { ...values } }), {
-      loading: "Saving project...",
-      success: "Project saved successfully!",
-      error: "Failed to save project.",
-    });
+    toast.promise(
+      async () => {
+        await createProject({ project: { ...values } });
+        setCreateProjectModal(false);
+      },
+      {
+        loading: "Saving project...",
+        success: "Project saved successfully!",
+        error: "Failed to save project.",
+      },
+    );
   };
 
   return (

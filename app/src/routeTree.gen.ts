@@ -15,6 +15,7 @@ import { Route as AuthorizedCalendarIndexRouteImport } from './routes/_authorize
 import { Route as AuthorizedHomeIndexRouteImport } from './routes/_authorized/home/index'
 import { Route as AuthorizedProjectsIndexRouteImport } from './routes/_authorized/projects/index'
 import { Route as AuthorizedTasksIndexRouteImport } from './routes/_authorized/tasks/index'
+import { Route as AuthorizedProjectsProjectIdIndexRouteImport } from './routes/_authorized/projects/$projectId/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -45,6 +46,12 @@ const AuthorizedTasksIndexRoute = AuthorizedTasksIndexRouteImport.update({
   path: '/tasks/',
   getParentRoute: () => AuthorizedRoute,
 } as any)
+const AuthorizedProjectsProjectIdIndexRoute =
+  AuthorizedProjectsProjectIdIndexRouteImport.update({
+    id: '/projects/$projectId/',
+    path: '/projects/$projectId/',
+    getParentRoute: () => AuthorizedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/home/': typeof AuthorizedHomeIndexRoute
   '/projects/': typeof AuthorizedProjectsIndexRoute
   '/tasks/': typeof AuthorizedTasksIndexRoute
+  '/projects/$projectId/': typeof AuthorizedProjectsProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -59,6 +67,7 @@ export interface FileRoutesByTo {
   '/home': typeof AuthorizedHomeIndexRoute
   '/projects': typeof AuthorizedProjectsIndexRoute
   '/tasks': typeof AuthorizedTasksIndexRoute
+  '/projects/$projectId': typeof AuthorizedProjectsProjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,12 +77,25 @@ export interface FileRoutesById {
   '/_authorized/home/': typeof AuthorizedHomeIndexRoute
   '/_authorized/projects/': typeof AuthorizedProjectsIndexRoute
   '/_authorized/tasks/': typeof AuthorizedTasksIndexRoute
+  '/_authorized/projects/$projectId/': typeof AuthorizedProjectsProjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/calendar/' | '/home/' | '/projects/' | '/tasks/'
+  fullPaths:
+    | '/'
+    | '/calendar/'
+    | '/home/'
+    | '/projects/'
+    | '/tasks/'
+    | '/projects/$projectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/calendar' | '/home' | '/projects' | '/tasks'
+  to:
+    | '/'
+    | '/calendar'
+    | '/home'
+    | '/projects'
+    | '/tasks'
+    | '/projects/$projectId'
   id:
     | '__root__'
     | '/'
@@ -82,6 +104,7 @@ export interface FileRouteTypes {
     | '/_authorized/home/'
     | '/_authorized/projects/'
     | '/_authorized/tasks/'
+    | '/_authorized/projects/$projectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -133,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorizedTasksIndexRouteImport
       parentRoute: typeof AuthorizedRoute
     }
+    '/_authorized/projects/$projectId/': {
+      id: '/_authorized/projects/$projectId/'
+      path: '/projects/$projectId'
+      fullPath: '/projects/$projectId/'
+      preLoaderRoute: typeof AuthorizedProjectsProjectIdIndexRouteImport
+      parentRoute: typeof AuthorizedRoute
+    }
   }
 }
 
@@ -141,6 +171,7 @@ interface AuthorizedRouteChildren {
   AuthorizedHomeIndexRoute: typeof AuthorizedHomeIndexRoute
   AuthorizedProjectsIndexRoute: typeof AuthorizedProjectsIndexRoute
   AuthorizedTasksIndexRoute: typeof AuthorizedTasksIndexRoute
+  AuthorizedProjectsProjectIdIndexRoute: typeof AuthorizedProjectsProjectIdIndexRoute
 }
 
 const AuthorizedRouteChildren: AuthorizedRouteChildren = {
@@ -148,6 +179,7 @@ const AuthorizedRouteChildren: AuthorizedRouteChildren = {
   AuthorizedHomeIndexRoute: AuthorizedHomeIndexRoute,
   AuthorizedProjectsIndexRoute: AuthorizedProjectsIndexRoute,
   AuthorizedTasksIndexRoute: AuthorizedTasksIndexRoute,
+  AuthorizedProjectsProjectIdIndexRoute: AuthorizedProjectsProjectIdIndexRoute,
 }
 
 const AuthorizedRouteWithChildren = AuthorizedRoute._addFileChildren(

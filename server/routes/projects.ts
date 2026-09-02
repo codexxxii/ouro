@@ -18,6 +18,9 @@ export const projectsRoute = new Hono()
           id: true,
           name: true,
         },
+        with: {
+          tasks: true,
+        },
       });
 
       return c.json({ data });
